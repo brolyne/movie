@@ -1,5 +1,5 @@
 
-import poster from '../assets/react.svg';
+import poster from 'C:\\Users\\brolyne\\Desktop\\programs\\img.png';
 
 import '../styles/home.css';
 
@@ -16,15 +16,15 @@ export default function Home(){
                 <h4>Popular Now</h4>
                 <div id="trending-container">
                     <div>
-                        <img src={poster} alt='Movie Poster'/>
+                        <img src={poster} className='poster' alt='Movie Poster'/>
                         <p>The Avengers</p>
                     </div>
                     <div>
-                        <img src={poster} alt='Movie Poster'/>
+                        <img src={poster} className='poster' alt='Movie Poster'/>
                         <p>The Avengers</p>
                     </div>
                     <div>
-                        <img src={poster} alt='Movie Poster'/>
+                        <img src={poster} className='poster' alt='Movie Poster'/>
                         <p>The Avengers</p>
                     </div>
                 </div>
