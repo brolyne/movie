@@ -1,5 +1,6 @@
 
 import poster from 'C:\\Users\\brolyne\\Desktop\\programs\\img.png';
+import { Link } from 'react-router-dom';
 
 import '../styles/home.css';
 
@@ -15,10 +16,10 @@ export default function Home(){
                 </div>
                 <h4>Popular Now</h4>
                 <div id="trending-container">
-                    <div>
+                    <Link to={`/details/${1}`}>
                         <img src={poster} className='poster' alt='Movie Poster'/>
                         <p>The Avengers</p>
-                    </div>
+                    </Link>
                     <div>
                         <img src={poster} className='poster' alt='Movie Poster'/>
                         <p>The Avengers</p>
