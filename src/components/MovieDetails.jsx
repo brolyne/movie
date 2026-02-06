@@ -1,10 +1,10 @@
-//import '../styles/moviedetails.css';
+import '../styles/moviedetails.css';
 
 import avengers from "C:\\Users\\brolyne\\Desktop\\programs\\avengers.jpg";
 
 export default function MovieDetails(){
     return(
-        <div id="details-container">
+        <div id="container">
             <h2>The Avengers</h2>
             <div id='sub-container'>
                 <div id='image-container'>
@@ -15,7 +15,7 @@ export default function MovieDetails(){
                     <h5>Released: 2016</h5>
                     <h5>IMDB rating: 8.1</h5>
                     <h5>PG 13</h5>
-                    <p>Cast</p>
+                    <p id='cast-title'>Cast</p>
                     <p>Robert Downey jr, MArk Ruffalo, Scarlet Johanson, Chris Hemsworth, Jeremy Rener, Chris Evans, Samuel Jackson</p>
                     <div id="mini-container">
                         <p>2 hrs 36 mins </p>
@@ -23,9 +23,10 @@ export default function MovieDetails(){
                     </div>
 
                 </div>
-                <div>
+                
+            </div>
+            <div>
                     <p>Earth's mightiest heroes come together in new york to face an extra terestial enemy, Loki Lauffeyson </p>
-                </div>
             </div>
         </div>
     )
