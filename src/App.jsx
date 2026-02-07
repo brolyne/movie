@@ -18,7 +18,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home/>}/>
-          <Route path= {`/details/${id}`} element={<MovieDetails/>}/>
+          <Route path= {`/details/:id`} element={<MovieDetails/>}/>
           <Route path={`/search`} element={<SerachResults/>}/>
         </Routes>
       </BrowserRouter>

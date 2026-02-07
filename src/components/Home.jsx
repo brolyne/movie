@@ -14,7 +14,7 @@ export default function Home(){
         //console the key pressed
         
         if(e.key=='Enter'){
-            console.log(e.target.value)
+           // console.log(e.target.value)
             navigate(`/search?query=${query}`)
         }
     }

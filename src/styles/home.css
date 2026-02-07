@@ -45,6 +45,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
 }
 
 #trending-container img{
@@ -60,4 +61,8 @@
 }
 a{
     text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
