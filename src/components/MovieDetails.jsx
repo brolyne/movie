@@ -1,32 +1,57 @@
 import '../styles/moviedetails.css';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import avengers from "C:\\Users\\brolyne\\Desktop\\programs\\avengers.jpg";
 
 export default function MovieDetails(){
+    const [movie, setMovie] = useState(null);
+    const [loading, setloading] = useState(true)
+
+    const {id} = useParams();
+    useEffect(()=>{
+            async function search() {
+                const res = await fetch(`http://www.omdbapi.com/?apikey=9afcf374&i=${id}`);
+                const data = await res.json();
+                console.log("data: ",data);
+                setMovie(data);
+                setloading(false);
+            }
+            search();
+        },[])
+
+        if(loading){
+            return(
+                <div style={{width:'70%',height:'20%'}}>
+                    <h4>Loading...</h4>
+                </div>
+            )
+        }
     return(
         <div id="container">
-            <h2>The Avengers</h2>
+            <h2>{movie?.Title}</h2>
             <div id='sub-container'>
                 <div id='image-container'>
-                    <img src={avengers} alt="Poster"/>
+                    <img src={movie?.Poster} alt="Poster"/>
                 </div>
                 <div id="details-container">
-                    <h5>Adventure, Action, Comedy</h5>
-                    <h5>Released: 2016</h5>
-                    <h5>IMDB rating: 8.1</h5>
-                    <h5>PG 13</h5>
+                    <h5>{movie?.Genre}</h5>
+                    <h5>Released: {movie?.Released}</h5>
+                    <h5>IMDB rating: {movie?.imdbRating}</h5>
+                    <h5>{movie?.Rated}</h5>
                     <p id='cast-title'>Cast</p>
-                    <p>Robert Downey jr, MArk Ruffalo, Scarlet Johanson, Chris Hemsworth, Jeremy Rener, Chris Evans, Samuel Jackson</p>
+                    <p>{movie?.Actors}</p>
                     <div id="mini-container">
-                        <p>2 hrs 36 mins </p>
-                        <p>Movie</p>
+                        <p>{movie?.Runtime} </p>
+                        <p>{movie?.type}</p>
                     </div>
+                    <p>{movie?.Plot}</p>
 
                 </div>
                 
             </div>
             <div>
-                    <p>Earth's mightiest heroes come together in new york to face an extra terestial enemy, Loki Lauffeyson </p>
+                    
             </div>
         </div>
     )
