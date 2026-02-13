@@ -8,6 +8,7 @@ export default function SerachResults(){
     const [urlParams] = useSearchParams();
     const [query, setQuery] = useState(urlParams.get('query') || '');
     const [movies, setMovies] = useState(null);
+    const [message, setMessage] = useState('');
     //const [runtime, setruntime] = useState(null);
     const [loading, setloading] = useState(true)
     //const [title, settitle]=useState('')
@@ -19,6 +20,12 @@ export default function SerachResults(){
             console.log("data: ",data);
             setMovies(data.Search);
             setloading(false);
+            console.log("FFF: ",data.Response);
+            setMessage(`Search results for '${query}'`);
+            if(data.Response=="False"){
+                console.log("error: ",data.Error);
+                setMessage(`Error: ${data.Error}`||"No results found");
+            }
         }
         search();
     },[query])
@@ -31,6 +38,7 @@ export default function SerachResults(){
         )
     }
 
+
     return(
         <div>
             <div id='input-container'>
@@ -38,7 +46,7 @@ export default function SerachResults(){
                     //onInput={(e)=>settitle(e.target.value)} 
                     onKeyDown={(e)=>e.key === 'Enter' && setQuery(e.target.value)}/>
             </div>
-            <h4>Result for '{query}'</h4>
+            <h4>{message}</h4>
             <div id="trending-container">
             {movies &&
                 movies.map((movie)=>{
