@@ -1,6 +1,8 @@
 import { Link, useSearchParams } from "react-router-dom"
 import poster from 'C:\\Users\\brolyne\\Desktop\\programs\\img.png';
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+const OMDBKEY = import.meta.env.VITE_OMDBKEY;
 
 export default function SerachResults(){
 
@@ -9,13 +11,12 @@ export default function SerachResults(){
     const [query, setQuery] = useState(urlParams.get('query') || '');
     const [movies, setMovies] = useState(null);
     const [message, setMessage] = useState('');
-    //const [runtime, setruntime] = useState(null);
     const [loading, setloading] = useState(true)
     //const [title, settitle]=useState('')
     //console.log(query);
     useEffect(()=>{
         async function search() {
-            const res = await fetch(`http://www.omdbapi.com/?apikey=9afcf374&s=${query}`);
+            const res = await fetch(`http://www.omdbapi.com/?apikey=${OMDBKEY}&s=${query}`);
             const data = await res.json();
             console.log("data: ",data);
             setMovies(data.Search);

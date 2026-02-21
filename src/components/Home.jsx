@@ -1,13 +1,22 @@
 
 import poster from 'C:\\Users\\brolyne\\Desktop\\programs\\img.png';
 import { Link ,useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import '../styles/home.css';
 
 export default function Home(){
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
+
+    useEffect(()=>{
+        async function foo(){
+            const res = await fetch("https://simkl.in/v1/trending/movies.json");
+            const data=await res.text()
+            console.log("Data: ",data);
+        }
+        foo();
+    })
 
 
     function search(e){
