@@ -1,34 +1,41 @@
-
 import poster from 'C:\\Users\\brolyne\\Desktop\\programs\\img.png';
-import { Link ,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import '../styles/home.css';
 
+const TMDBAPI = import.meta.env.VITE_TMDBAPI || import.meta.env.TMDBAPI;
+
 export default function Home(){
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
+    const [popularMovies, setPopularMovies] = useState([]);
 
-    useEffect(()=>{
-        async function foo(){
-            const res = await fetch("https://simkl.in/v1/trending/movies.json");
-            const data=await res.text()
-            console.log("Data: ",data);
+    useEffect(() => {
+        async function loadPopularMovies() {
+            if (!TMDBAPI) {
+                console.error('TMDB API key is missing. Set TMDBAPI/VITE_TMDBAPI in .env');
+                return;
+            }
+
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDBAPI}&language=en-US&page=1`);
+                const data = await res.json();
+                setPopularMovies((data.results || []).slice(0, 10));
+            } catch (error) {
+                console.error('Failed to load popular movies:', error);
+            }
         }
-        foo();
-    })
 
+        loadPopularMovies();
+    }, []);
 
     function search(e){
-        //console the key pressed
-        
-        if(e.key=='Enter'){
-           // console.log(e.target.value)
-            navigate(`/search?query=${query}`)
+        if(e.key === 'Enter'){
+            navigate(`/search?query=${encodeURIComponent(query)}`);
         }
     }
 
-    
     return(
         <>
             <div id="home-body">
@@ -38,18 +45,16 @@ export default function Home(){
                 </div>
                 <h4>Popular Now</h4>
                 <div id="trending-container">
-                    <Link to={`/details/${1}`}>
-                        <img src={poster} className='poster' alt='Movie Poster'/>
-                        <p>The Avengers</p>
-                    </Link>
-                    <div>
-                        <img src={poster} className='poster' alt='Movie Poster'/>
-                        <p>The Avengers</p>
-                    </div>
-                    <div>
-                        <img src={poster} className='poster' alt='Movie Poster'/>
-                        <p>The Avengers</p>
-                    </div>
+                    {popularMovies.map((movie) => (
+                        <Link key={movie.id} to={`/search?query=${encodeURIComponent(movie.title)}`}>
+                            <img
+                                src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : poster}
+                                className='poster'
+                                alt={`${movie.title} Poster`}
+                            />
+                            <p>{movie.title}</p>
+                        </Link>
+                    ))}
                 </div>
             </div>
         </>
