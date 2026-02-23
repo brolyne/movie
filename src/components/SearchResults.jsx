@@ -25,7 +25,7 @@ export default function SerachResults(){
             setMessage(`Search results for '${query}'`);
             if(data.Response=="False"){
                 console.log("error: ",data.Error);
-                setMessage(`Error: ${data.Error}`||"No results found");
+                setMessage(`Error: ${data.Error || 'No results found'}`);
             }
         }
         search();

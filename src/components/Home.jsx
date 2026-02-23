@@ -43,6 +43,7 @@ export default function Home(){
                 <div id='input-container'>
                     <input type="text" placeholder="Search" onInput={(e)=>setQuery(e.target.value)} onKeyDown={(e)=>search(e)}/>
                 </div>
+                <button className='favourites-button' onClick={() => navigate('/favourites')}>Favourites</button>
                 <h4>Popular Now</h4>
                 <div id="trending-container">
                     {popularMovies.map((movie) => (

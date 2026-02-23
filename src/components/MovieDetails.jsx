@@ -2,23 +2,52 @@ import '../styles/moviedetails.css';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import avengers from "C:\\Users\\brolyne\\Desktop\\programs\\avengers.jpg";
+const OMDBKEY = import.meta.env.VITE_OMDBKEY || '9afcf374';
+
+function getFavourites() {
+    try {
+        const parsed = JSON.parse(localStorage.getItem('favourites') || '[]');
+        return Array.isArray(parsed) ? parsed : [];
+    } catch {
+        return [];
+    }
+}
 
 export default function MovieDetails(){
     const [movie, setMovie] = useState(null);
     const [loading, setloading] = useState(true)
+    const [isFavourite, setIsFavourite] = useState(false);
 
     const {id} = useParams();
     useEffect(()=>{
             async function search() {
-                const res = await fetch(`http://www.omdbapi.com/?apikey=9afcf374&i=${id}`);
+                const res = await fetch(`http://www.omdbapi.com/?apikey=${OMDBKEY}&i=${id}`);
                 const data = await res.json();
                 console.log("data: ",data);
                 setMovie(data);
+                setIsFavourite(getFavourites().includes(id));
                 setloading(false);
             }
+
             search();
-        },[])
+        },[id])
+
+        function addToFavourites() {
+            const favourites = getFavourites();
+            if (!favourites.includes(id)) {
+                localStorage.setItem('favourites', JSON.stringify([...favourites, id]));
+            }
+            setIsFavourite(true);
+        }
+
+        function removeFromFavourites() {
+            const favourites = getFavourites();
+            localStorage.setItem(
+                'favourites',
+                JSON.stringify(favourites.filter((movieId) => movieId !== id))
+            );
+            setIsFavourite(false);
+        }
 
         if(loading){
             return(
@@ -46,12 +75,16 @@ export default function MovieDetails(){
                         <p>{movie?.type}</p>
                     </div>
                     <p>{movie?.Plot}</p>
-
+                    {isFavourite ? (
+                        <button onClick={removeFromFavourites}>Remove from favourites</button>
+                    ) : (
+                        <button onClick={addToFavourites}>Add to favourites</button>
+                    )}
                 </div>
-                
+
             </div>
             <div>
-                    
+
             </div>
         </div>
     )
