@@ -39,11 +39,13 @@ export default function Home(){
     return(
         <>
             <div id="home-body">
-                <h2>MovieStore</h2>
+                <div id='header'>
+                    <h2>MovieStore</h2>
+                    <button className='favourites-button' onClick={() => navigate('/favourites')}>Favourites</button>
+                </div>
                 <div id='input-container'>
                     <input type="text" placeholder="Search" onInput={(e)=>setQuery(e.target.value)} onKeyDown={(e)=>search(e)}/>
                 </div>
-                <button className='favourites-button' onClick={() => navigate('/favourites')}>Favourites</button>
                 <h4>Popular Now</h4>
                 <div id="trending-container">
                     {popularMovies.map((movie) => (

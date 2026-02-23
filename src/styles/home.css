@@ -6,7 +6,17 @@
     font-size: 25px;
     margin-top: 0;
 }
-
+#header{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 10px;
+    align-items: center;
+}
+#header button{
+    margin-right: 0;
+    border: 1px solid blue;
+}
 #input-container{
     display: flex;
     justify-content: center;
