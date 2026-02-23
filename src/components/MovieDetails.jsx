@@ -68,10 +68,11 @@ export default function MovieDetails(){
                     <h5>Released: {movie?.Released}</h5>
                     <h5>IMDB rating: {movie?.imdbRating}</h5>
                     <h5>{movie?.Rated}</h5>
+                    <h5>Runtime: {movie?.Runtime} </h5>
                     <p id='cast-title'>Cast</p>
                     <p>{movie?.Actors}</p>
                     <div id="mini-container">
-                        <p>{movie?.Runtime} </p>
+        
                         <p>{movie?.type}</p>
                     </div>
                     <p>{movie?.Plot}</p>
