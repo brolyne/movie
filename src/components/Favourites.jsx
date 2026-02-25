@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import poster from 'C:\\Users\\brolyne\\Desktop\\programs\\img.png';
 
 import '../styles/home.css';
 

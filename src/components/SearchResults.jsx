@@ -1,5 +1,4 @@
 import { Link, useSearchParams } from "react-router-dom"
-import poster from 'C:\\Users\\brolyne\\Desktop\\programs\\img.png';
 import { useEffect, useState } from "react";
 
 const OMDBKEY = import.meta.env.VITE_OMDBKEY;
