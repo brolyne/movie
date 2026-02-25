@@ -1,77 +1,94 @@
-import { Link, useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const OMDBKEY = import.meta.env.VITE_OMDBKEY;
 
-export default function SerachResults(){
+export default function SerachResults() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const currentQuery = (searchParams.get("query") || "").trim();
 
-    //get res query
-    const [urlParams] = useSearchParams();
-    const [query, setQuery] = useState(urlParams.get('query') || '');
-    const [movies, setMovies] = useState(null);
-    const [message, setMessage] = useState('');
-    const [loading, setloading] = useState(true)
-    useEffect(()=>{
+    const [inputValue, setInputValue] = useState(currentQuery);
+    const [movies, setMovies] = useState([]);
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setInputValue(currentQuery);
+    }, [currentQuery]);
+
+    useEffect(() => {
         async function search() {
-            const res = await fetch(`https://www.omdbapi.com/?apikey=${OMDBKEY}&s=${query}`);
-            const data = await res.json();
-            setMovies(data.Search);
-            setloading(false);
-            setMessage(`Search results for '${query}'`);
-            if(data.Response=="False"){
-                setMessage(`Error: ${data.Error || 'No results found'}`);
+            if (!currentQuery) {
+                setMovies([]);
+                setMessage("Type a movie name to search.");
+                setLoading(false);
+                return;
+            }
+
+            setLoading(true);
+            console.log("hey");
+
+            try {
+                const res = await fetch(`https://www.omdbapi.com/?apikey=${OMDBKEY}&s=${encodeURIComponent(currentQuery)}`);
+                const data = await res.json();
+
+                if (data.Response === "False") {
+                    setMovies([]);
+                    setMessage(`Error: ${data.Error || "No results found"}`);
+                    return;
+                }
+
+                setMovies(data.Search || []);
+                setMessage(`Search results for '${currentQuery}'`);
+            } catch {
+                setMovies([]);
+                setMessage("Error: Failed to search movies.");
+            } finally {
+                setLoading(false);
             }
         }
-        search();
-    },[query])
 
-    if(loading){
-        return(
-            <div style={{width:'70%',height:'20%'}}>
-                <h4>Loading...</h4>
-            </div>
-        )
+        search();
+    }, [currentQuery]);
+
+    function handleKeyDown(e) {
+        if (e.key !== "Enter") return;
+
+        const nextQuery = inputValue.trim();
+        console.log("searching for:", nextQuery);
+
+        if (!nextQuery) {
+            setSearchParams({});
+            return;
+        }
+
+        setSearchParams({ query: nextQuery });
     }
 
-
-    return(
+    return (
         <div>
-            <div id='input-container'>
-                    <input type="text" placeholder="Search" 
-                    //onInput={(e)=>settitle(e.target.value)} 
-                    onKeyDown={(e)=>e.key === 'Enter' && setQuery(e.target.value)}/>
+            <div id="input-container">
+                <input
+                    type="text"
+                    placeholder="Search"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                />
             </div>
-            <h4>{message}</h4>
+
+            {loading ? <h4>Loading...</h4> : <h4>{message}</h4>}
+
             <div id="trending-container">
-            {movies &&
-                movies.map((movie)=>{
-                    return(
+                {movies.map((movie) => (
                     <div key={movie.imdbID}>
-                        <Link key={movie.imdbID} to={`/details/${movie.imdbID}`}>
-                            <img src={movie.Poster||poster} className='poster' alt='Movie Poster'/>
+                        <Link to={`/details/${movie.imdbID}`}>
+                            <img src={movie.Poster} className="poster" alt="Movie Poster" />
                             <p>{movie.Title}</p>
                         </Link>
                     </div>
-                    )
-                })
-            }
+                ))}
             </div>
-            {/*
-                <div id="trending-container">
-                    <Link to={`/details/${1}`}>
-                        <img src={poster} className='poster' alt='Movie Poster'/>
-                        <p>The Avengers</p>
-                    </Link>
-                    <div>
-                        <img src={poster} className='poster' alt='Movie Poster'/>
-                        <p>The Avengers</p>
-                    </div>
-                    <div>
-                        <img src={poster} className='poster' alt='Movie Poster'/>
-                        <p>The Avengers</p>
-                    </div>
-                </div>
-                */}
         </div>
-    )
+    );
 }
