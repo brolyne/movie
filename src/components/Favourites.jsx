@@ -30,7 +30,7 @@ export default function Favourites(){
 
             const favouriteMovies = await Promise.all(
                 ids.map(async (movieId) => {
-                    const res = await fetch(`http://www.omdbapi.com/?apikey=${OMDBKEY}&i=${movieId}`);
+                    const res = await fetch(`https://www.omdbapi.com/?apikey=${OMDBKEY}&i=${movieId}`);
                     return res.json();
                 })
             );
