@@ -12,19 +12,14 @@ export default function SerachResults(){
     const [movies, setMovies] = useState(null);
     const [message, setMessage] = useState('');
     const [loading, setloading] = useState(true)
-    //const [title, settitle]=useState('')
-    //console.log(query);
     useEffect(()=>{
         async function search() {
             const res = await fetch(`http://www.omdbapi.com/?apikey=${OMDBKEY}&s=${query}`);
             const data = await res.json();
-            console.log("data: ",data);
             setMovies(data.Search);
             setloading(false);
-            console.log("FFF: ",data.Response);
             setMessage(`Search results for '${query}'`);
             if(data.Response=="False"){
-                console.log("error: ",data.Error);
                 setMessage(`Error: ${data.Error || 'No results found'}`);
             }
         }

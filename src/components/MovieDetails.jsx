@@ -23,7 +23,6 @@ export default function MovieDetails(){
             async function search() {
                 const res = await fetch(`http://www.omdbapi.com/?apikey=${OMDBKEY}&i=${id}`);
                 const data = await res.json();
-                console.log("data: ",data);
                 setMovie(data);
                 setIsFavourite(getFavourites().includes(id));
                 setloading(false);

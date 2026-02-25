@@ -10,11 +10,13 @@ export default function Home(){
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
     const [popularMovies, setPopularMovies] = useState([]);
+    const [loaderror, setloaderror] = useState(false);
 
     useEffect(() => {
         async function loadPopularMovies() {
             if (!TMDBAPI) {
-                console.error('TMDB API key is missing. Set TMDBAPI/VITE_TMDBAPI in .env');
+                //console.error('TMDB API key is missing. Set TMDBAPI/VITE_TMDBAPI in .env');
+                setloaderror(true);
                 return;
             }
 
@@ -23,7 +25,8 @@ export default function Home(){
                 const data = await res.json();
                 setPopularMovies((data.results || []).slice(0, 10));
             } catch (error) {
-                console.error('Failed to load popular movies:', error);
+                //console.error('Failed to load popular movies:', error);
+                setloaderror(true);
             }
         }
 
@@ -47,6 +50,7 @@ export default function Home(){
                     <input type="text" placeholder="Search" onInput={(e)=>setQuery(e.target.value)} onKeyDown={(e)=>search(e)}/>
                 </div>
                 <h4>Popular Now</h4>
+                {loaderror && <p style={{color:'red'}}>Failed to load popular movies. Please try again later.</p>}
                 <div id="trending-container">
                     {popularMovies.map((movie) => (
                         <Link key={movie.id} to={`/search?query=${encodeURIComponent(movie.title)}`}>
