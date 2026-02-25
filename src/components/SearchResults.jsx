@@ -13,7 +13,7 @@ export default function SerachResults(){
     const [loading, setloading] = useState(true)
     useEffect(()=>{
         async function search() {
-            const res = await fetch(`http://www.omdbapi.com/?apikey=${OMDBKEY}&s=${query}`);
+            const res = await fetch(`https://www.omdbapi.com/?apikey=${OMDBKEY}&s=${query}`);
             const data = await res.json();
             setMovies(data.Search);
             setloading(false);
