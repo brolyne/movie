@@ -21,7 +21,7 @@ export default function MovieDetails(){
     const {id} = useParams();
     useEffect(()=>{
             async function search() {
-                const res = await fetch(`http://www.omdbapi.com/?apikey=${OMDBKEY}&i=${id}`);
+                const res = await fetch(`https://www.omdbapi.com/?apikey=${OMDBKEY}&i=${id}`);
                 const data = await res.json();
                 setMovie(data);
                 setIsFavourite(getFavourites().includes(id));
